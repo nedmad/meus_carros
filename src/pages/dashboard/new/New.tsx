@@ -82,7 +82,7 @@ export default function New() {
             setImageCar([]);
             reset();
           })
-          .catch((e) => {
+          .catch(() => {
             toast.error(`Erro ao cadastrar ${data.name}`);
           });
       } catch (error) {
@@ -132,7 +132,7 @@ export default function New() {
       await deleteObject(imageRef);
       setImageCar(imageCar.filter((e) => e.url != image.url));
     } catch (err) {
-      console.log("erro ao apagar");
+      console.log("erro ao apagar" + err);
     }
   }
   return (
@@ -154,10 +154,10 @@ export default function New() {
               </div>
             </div>
           </section>
-          {imageCar.map((e) => (
+          {imageCar.map((ima) => (
             <div
               className="col p-0  position-relative d-flex justify-content-center align-items-center"
-              key={e.name}
+              key={ima.name}
             >
               <button
                 className="btn position-absolute text-light"
@@ -169,7 +169,7 @@ export default function New() {
               <img
                 className="w-100  object-fit-cover rounded-2"
                 style={{ maxHeight: 100 }}
-                src={e.previewUrl}
+                src={ima.previewUrl}
                 alt=""
               />
             </div>

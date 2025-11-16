@@ -33,14 +33,13 @@ export default function Login() {
   const { signed } = useContext(ContextAuth);
 
   if (signed) {
-    return navigate("/");
+    return <Navigate to={"/"} />;
   }
 
   async function fazerLogin(data: FormData) {
     await signInWithEmailAndPassword(auth, data.email, data.password)
-      .then((e) => {
+      .then(() => {
         toast.success("Login efetuado com sucesso");
-        c;
         navigate("/dashboard");
       })
       .catch((error) => {

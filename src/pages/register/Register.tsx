@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { auth } from "../../services/firebase";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useContext, useState, useTransition } from "react";
 import { ContextAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
@@ -40,7 +40,7 @@ export default function Regiter() {
   const { signed } = useContext(ContextAuth);
   const [isPedding, setIsPedding] = useTransition();
   if (signed) {
-    return navigate("/");
+    return <Navigate to={"/"} />;
   }
 
   async function fazerCadastro(data: FormData) {
