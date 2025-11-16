@@ -82,8 +82,8 @@ export default function New() {
             setImageCar([]);
             reset();
           })
-          .catch(() => {
-            toast.error(`Erro ao cadastrar ${data.name}`);
+          .catch((e) => {
+            toast.error(`Erro ao cadastrar ${data.name} ${e}`);
           });
       } catch (error) {
         console.log(error);
@@ -162,7 +162,7 @@ export default function New() {
               <button
                 className="btn position-absolute text-light"
                 style={{ zIndex: 2 }}
-                onClick={() => deleteImage(e)}
+                onClick={() => deleteImage(ima)}
               >
                 <FiTrash size={30} />
               </button>
