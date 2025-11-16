@@ -1,0 +1,15 @@
+.container-lg{
+    max-width: 900px;
+  
+}
+.login{
+  height: 70vh;
+}
+
+.hover-scale {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
+  }
