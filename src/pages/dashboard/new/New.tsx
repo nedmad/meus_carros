@@ -110,30 +110,34 @@ export default function New() {
     const uidImage = uuidV4();
 
     const refImage = ref(storage, `image/${uidUser}/${uidImage}`); //ref faz uma referencia de link da imagem para o storage
-    await uploadBytes(refImage, image) //uploadBytes faz o envio da imagem. image seria o tipo de arquivo
-      .then(async (snapshot) => {
-        await getDownloadURL(snapshot.ref).then((downloadImage) => {
-          //getDownloadURL pega os dados da imagem que foi enviado para o firebase
-          const imageItem: ImageCar = {
-            name: uidImage,
-            uid: uidUser,
-            previewUrl: URL.createObjectURL(image),
-            url: downloadImage,
-          };
-          setImageCar((imagens) => [...imagens, imageItem]);
-        });
-      })
-      .catch((error) => console.log("Erro a enviar imagem \n" + error));
+    setPeding(async () => {
+      await uploadBytes(refImage, image) //uploadBytes faz o envio da imagem. image seria o tipo de arquivo
+        .then(async (snapshot) => {
+          await getDownloadURL(snapshot.ref).then((downloadImage) => {
+            //getDownloadURL pega os dados da imagem que foi enviado para o firebase
+            const imageItem: ImageCar = {
+              name: uidImage,
+              uid: uidUser,
+              previewUrl: URL.createObjectURL(image),
+              url: downloadImage,
+            };
+            setImageCar((imagens) => [...imagens, imageItem]);
+          });
+        })
+        .catch((error) => console.log("Erro a enviar imagem \n" + error));
+    });
   }
   async function deleteImage(image: ImageCar) {
     const imagePath = `image/${image.uid}/${image.name}`;
     const imageRef = ref(storage, imagePath);
-    try {
-      await deleteObject(imageRef);
-      setImageCar(imageCar.filter((e) => e.url != image.url));
-    } catch (err) {
-      console.log("erro ao apagar" + err);
-    }
+    setPeding(async () => {
+      try {
+        await deleteObject(imageRef);
+        setImageCar(imageCar.filter((e) => e.url != image.url));
+      } catch (err) {
+        console.log("erro ao apagar" + err);
+      }
+    });
   }
   return (
     <>
@@ -141,9 +145,12 @@ export default function New() {
         <section className="row gap-2 align-items-center mb-4">
           <section className="col-2 ">
             <div className="border rounded-3 py-4 px-2  border-dark w-100 d-flex position-relative justify-content-center align-items-center">
-              <div className="position-absolute ">
+              <button
+                disabled={isPeding}
+                className="position-absolute btn border-0"
+              >
                 <FiUpload size={50} />
-              </div>
+              </button>
               <div className="img-upload opacity-0" style={{ zIndex: 1 }}>
                 <input
                   style={{ cursor: "pointer" }}
@@ -163,6 +170,7 @@ export default function New() {
                 className="btn position-absolute text-light"
                 style={{ zIndex: 2 }}
                 onClick={() => deleteImage(ima)}
+                disabled={isPeding}
               >
                 <FiTrash size={30} />
               </button>
