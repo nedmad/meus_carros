@@ -97,18 +97,18 @@ export default function CarrosComponent({ isCarUser }: IsCarUser) {
                     >
                       <FiTrash2 size={26} />
                     </button>
-                    <button
-                      className="lixeira bg-light p-2 d-flex justify-content-center rounded-2 position-absolute end-1 m-2"
-                      style={{ width: 40, cursor: "pointer" }}
-                      disabled={peding}
+                    <Link
+                      to={`/dashboard/update/${e.id}`}
+                      className="text-black"
                     >
-                      <Link
-                        to={`/dashboard/update/${e.id}`}
-                        className="text-black"
+                      <button
+                        className="lixeira bg-light p-2 d-flex justify-content-center rounded-2 position-absolute m-2"
+                        style={{ width: 40, cursor: "pointer" }}
+                        disabled={peding}
                       >
                         <FiEdit2 size={26} />
-                      </Link>
-                    </button>
+                      </button>
+                    </Link>
                   </div>
                 )}
 
