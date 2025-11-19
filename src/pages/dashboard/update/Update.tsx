@@ -175,7 +175,7 @@ export default function Update() {
   return (
     <>
       <Container>
-        <CarForm atualizar={true} />
+        <CarForm atualizar={false} />
       </Container>
     </>
   );
