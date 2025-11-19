@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../services/firebase";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useTransition } from "react";
 import { ContextAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 
@@ -31,20 +31,23 @@ export default function Login() {
   });
   const navigate = useNavigate();
   const { signed } = useContext(ContextAuth);
+  const [isPeding, setIsPeding] = useTransition();
 
   if (signed) {
     return <Navigate to={"/"} />;
   }
 
   async function fazerLogin(data: FormData) {
-    await signInWithEmailAndPassword(auth, data.email, data.password)
-      .then(() => {
-        toast.success("Login efetuado com sucesso");
-        navigate("/dashboard");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    setIsPeding(async () => {
+      await signInWithEmailAndPassword(auth, data.email, data.password)
+        .then(() => {
+          toast.success("Login efetuado com sucesso");
+          navigate("/dashboard");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
   }
   return (
     <>
@@ -68,7 +71,11 @@ export default function Login() {
               error={errors.email?.message}
               register={register}
             />
-            <button type="submit" className="btn btn-primary w-100 p-2">
+            <button
+              disabled={isPeding}
+              type="submit"
+              className="btn btn-primary w-100 p-2"
+            >
               Entrar
             </button>
           </form>

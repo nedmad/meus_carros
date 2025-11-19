@@ -7,6 +7,7 @@ import Car from "./pages/car/Car";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
 import Protect from "./route/Protect";
+import Update from "./pages/dashboard/update/Update";
 
 export const route = createBrowserRouter([
   {
@@ -30,6 +31,14 @@ export const route = createBrowserRouter([
         element: (
           <Protect>
             <New />
+          </Protect>
+        ),
+      },
+      {
+        path: "/dashboard/update/:id",
+        element: (
+          <Protect>
+            <Update />
           </Protect>
         ),
       },

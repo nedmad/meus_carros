@@ -5,6 +5,7 @@ import { db } from "../../services/firebase";
 import { Link } from "react-router-dom";
 import type { GetCarros } from "../../types/carrosType";
 import { BiSearch } from "react-icons/bi";
+import CarrosComponent from "../../components/carros/CarrosComponent";
 
 export default function Home() {
   const [carros, setCarros] = useState<GetCarros[]>([]);
@@ -72,73 +73,7 @@ export default function Home() {
   return (
     <>
       <Container>
-        <nav className="">
-          <div className="container-fluid">
-            <div className="w-100 row shadow border rounded-3">
-              <input
-                className="border-0 col-10 col-lg-11 p-3 rounded-start-3"
-                type="search"
-                placeholder="Pesquisa o nome do carro"
-                style={{ outline: "none" }}
-                value={searchCar}
-                onChange={(e) => setSearchCar(e.target.value)}
-              />
-              <button
-                className="btn col-2 col-lg-1 rounded-start-0 d-flex align-items-center justify-content-center"
-                style={{ backgroundColor: "#d3d3d3" }}
-                onClick={buscarCarros}
-                type="submit"
-              >
-                <BiSearch size={30} style={{ minWidth: 100 }} />
-              </button>
-            </div>
-          </div>
-        </nav>
-        <section className="py-5">
-          <div className="row ">
-            {carros.map((val) => (
-              <Link
-                to={`/car/${val.id}`}
-                key={val.name}
-                className="col-12 col-sm-6 col-lg-4 hover-scale mt-4 text-decoration-none "
-              >
-                <div className="card shadow">
-                  <div
-                    className="card-img-top"
-                    style={{
-                      backgroundColor: "#e0e4cc",
-                      minHeight: 250,
-                      display: loadingCarros.includes(val.id)
-                        ? "none"
-                        : "block",
-                    }}
-                  ></div>
-                  <img
-                    src={val.images[0].url}
-                    className="card-img-top "
-                    alt="..."
-                    onLoad={() => onloadCar(val.id)}
-                    style={{
-                      display: loadingCarros.includes(val.id)
-                        ? "block"
-                        : "none",
-                    }}
-                  />
-                  <div className="card-body">
-                    <p className="card-text">
-                      <strong>{val.name}</strong>
-                    </p>
-                    <p>Ano {val.ano}</p>
-                    <p className="card-text">
-                      <strong>R$ {val.preco}</strong>
-                    </p>
-                    <p>{val.city}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <CarrosComponent isCarUser={false} />
       </Container>
     </>
   );

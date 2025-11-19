@@ -4,6 +4,7 @@ interface InputType {
   name: string;
   type: string;
   placeholder: string;
+  value?: string;
   register: UseFormRegister<any>;
   rules?: RegisterOptions;
   error?: string;
@@ -13,6 +14,7 @@ export default function Input({
   name,
   type,
   placeholder,
+  value,
   error,
   register,
   rules,
@@ -26,6 +28,7 @@ export default function Input({
           placeholder={placeholder}
           {...register(name, rules)}
           id={name}
+          value={value}
         />
         <div className="text-danger ms-1">{error}</div>
       </section>
