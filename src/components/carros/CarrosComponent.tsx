@@ -124,6 +124,7 @@ export default function CarrosComponent({ isCarUser }: IsCarUser) {
                     alt="..."
                     style={{
                       display: loadingCarros.includes(e.id) ? "block" : "none",
+                      maxHeight: 200,
                     }}
                     onLoad={() => onloadCar(e.id)}
                   />
