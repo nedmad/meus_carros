@@ -1,11 +1,16 @@
 import Container from "../../components/container/Container";
 import { FaWhatsapp } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../services/firebase";
 import { useNavigate, useParams } from "react-router-dom";
 import type { GetCarros } from "../../types/carrosType";
 import { Swiper, SwiperSlide } from "swiper/react";
+
+import { Navigation } from "swiper/modules";
+import LightGallery from "lightgallery/react";
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
 
 export default function Car() {
   const { id } = useParams();
@@ -13,6 +18,7 @@ export default function Car() {
   const [slidePreview, setSlidePreview] = useState<number>(2);
   const navigate = useNavigate();
 
+  const lightboxRef = useRef<any>(null);
   useEffect(() => {
     async function getCar() {
       if (!id) {
@@ -49,31 +55,54 @@ export default function Car() {
         setSlidePreview(2);
       }
     }
+    if (car?.images.length == 1) {
+      setSlidePreview(1);
+    }
     window.addEventListener("resize", resolutionImage);
     return () => {
       window.removeEventListener("resize", resolutionImage);
     };
-  }, []);
+  }, [car?.images]);
 
   return (
     <>
       <Container>
-        <Swiper
-          slidesPerView={slidePreview}
-          pagination={{ clickable: true }}
-          navigation
-        >
-          {car?.images.map((image) => (
-            <SwiperSlide>
-              <img
-                src={image.url}
-                className="w-100 object-fit-cover rounded-2"
-                style={{ height: 200 }}
-                alt=""
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
+        <section>
+          <LightGallery
+            onInit={(ref) => (lightboxRef.current = ref.instance)}
+            plugins={[lgThumbnail, lgZoom]}
+            dynamic
+            speed={500}
+            elementClassNames="my-gallery"
+            dynamicEl={
+              car?.images.map((img) => ({
+                src: img.url,
+                thumb: img.url,
+              })) ?? []
+            }
+          >
+            <Swiper
+              slidesPerView={slidePreview}
+              pagination={{ clickable: true }}
+              modules={[Navigation]}
+              navigation
+            >
+              {car?.images.map((image, index) => (
+                <SwiperSlide key={image.name}>
+                  <img
+                    src={image.url}
+                    className="w-100 object-fit-cover rounded-2"
+                    style={{ height: 200 }}
+                    alt=""
+                    onClick={() => {
+                      lightboxRef.current.openGallery(index);
+                    }}
+                  />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </LightGallery>
+        </section>
         <section>
           <div className="row align-items-center mt-4">
             <div className="col-6">
