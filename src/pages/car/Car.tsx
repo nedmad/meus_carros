@@ -90,7 +90,7 @@ export default function Car() {
             <div className="tel col-12 mt-4 mb-4 ">
               <div className="row justify-content-center">
                 <div className="col-12">
-                  <strong>Tlefone</strong>
+                  <strong>Telefone</strong>
                   <p>{car?.whatsapp}</p>
                 </div>
                 <button className="col-12 btn btn-success w-75 p-2">
