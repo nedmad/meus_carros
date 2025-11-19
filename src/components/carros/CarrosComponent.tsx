@@ -90,8 +90,8 @@ export default function CarrosComponent({ isCarUser }: IsCarUser) {
                 {isCarUser && (
                   <div className="d-flex">
                     <button
-                      className="lixeira bg-light p-2 d-flex justify-content-center rounded-2 position-absolute end-0 m-2 text-danger"
-                      style={{ width: 40, cursor: "pointer" }}
+                      className="lixeira bg-light p-2 d-flex border-0 justify-content-center rounded-2 position-absolute end-0 m-2 "
+                      style={{ width: 40, cursor: "pointer", color: "red" }}
                       onClick={() => deleteCar(e)}
                       disabled={peding}
                     >
@@ -99,15 +99,9 @@ export default function CarrosComponent({ isCarUser }: IsCarUser) {
                     </button>
                     <Link
                       to={`/dashboard/update/${e.id}`}
-                      className="text-black"
+                      className="text-black bg-light p-2 d-flex justify-content-center rounded-2 position-absolute m-2"
                     >
-                      <button
-                        className="lixeira bg-light p-2 d-flex justify-content-center rounded-2 position-absolute m-2"
-                        style={{ width: 40, cursor: "pointer" }}
-                        disabled={peding}
-                      >
-                        <FiEdit2 size={26} />
-                      </button>
+                      <FiEdit2 size={26} />
                     </Link>
                   </div>
                 )}
